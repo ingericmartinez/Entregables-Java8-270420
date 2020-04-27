@@ -456,7 +456,7 @@ public class Ejemplos {
 	interface funciones {
 
 		// las default methods en interfaces permiten la implementacion de 1 metodo
-		// en este caso acelerar
+		// en este caso encender
 
 		static void acelerar() {
 			System.out.println("acelerando....");
