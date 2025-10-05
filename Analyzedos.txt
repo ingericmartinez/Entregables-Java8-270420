@@ -1,0 +1,42 @@
+"Simula con granularidad a nivel de MICROSERVICIO y HILOS de ejecución este endpoint:
+
+POST /api/orders
+Headers: {Authorization: Bearer jwt_token, X-Correlation-ID: uuid}
+Body: {items: [...], paymentMethod: "CREDIT_CARD"}
+
+EXIGE este nivel de detalle:
+
+1. **CONTROLLER LAYER (nanosegundo a nanosegundo):**
+   - FilterChain: SecurityContextHolder, CORS, LoggingFilter
+   - DispatcherServlet: routing exacto @RestController -> @PostMapping
+   - ArgumentResolver: @RequestBody parsing, @Valid validation
+   - Interceptor preHandle/postHandle
+
+2. **SERVICE LAYER (estado de memoria):**
+   - Transacción @Transactional inicio (Proxy AOP)
+   - EntityManager persistence context state
+   - Cache layer (Redis/@Cacheable hits/misses)
+   - Domain Events publishing (@DomainEventPublisher)
+
+3. **DATABASE LAYER (SQL + Connection Pool):**
+   - HikariCP: Connection checkout (wait time)
+   - JPA/Hibernate: Session flush timing
+   - SQL exacto generado con bind parameters
+   - Lock acquisition (optimistic/pessimistic)
+
+4. **EXTERNAL CALLS (circuit breaker states):**
+   - HTTP Client: connection timeout, retries
+   - Circuit Breaker: CLOSED/OPEN/HALF_OPEN state
+   - Load Balancer: service discovery resolution
+
+5. **MEMORY/PERFORMANCE (JVM internals):**
+   - Garbage Collector cycles durante la request
+   - Thread Pool (Tomcat) queue time
+   - JSON serialization/deserialization cost
+
+PROPORCIONA por CADA paso:
+- Timestamp relativo en nanosegundos
+- Stack trace exacto en puntos críticos
+- Memory heap delta
+- SQL transaction isolation level effects
+- Lock contention analysis
