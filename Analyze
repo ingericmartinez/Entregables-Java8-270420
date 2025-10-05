@@ -1,0 +1,20 @@
+Simula la ejecución completa de un endpoint Spring Boot para transferencia bancaria:
+
+Endpoint: POST /api/transfer
+Body: { "fromAccount": "123", "toAccount": "456", "amount": 1000 }
+
+Flujo esperado:
+1. Controller: TransferController.transfer()
+2. Service: TransferService.processTransfer()
+3. Repository: AccountRepository (consultas y updates)
+4. Llamadas externas: Servicio de validación antifraude
+
+Proporciona por cada paso:
+- Métodos Java específicos invocados
+- Parámetros recibidos
+- Valores retornados
+- Posibles excepciones con mensajes específicos
+- Consultas SQL ejecutadas
+- Response HTTP final
+
+Incluye un escenario de éxito y uno de error (saldo insuficiente).
